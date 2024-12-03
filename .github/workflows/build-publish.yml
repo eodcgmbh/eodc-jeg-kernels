@@ -19,7 +19,9 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/julia-jeg-kernelspec:beta .
+          docker build \
+            --file kernel-julia/gateway/kernelspec-image/Dockerfile
+            --tag ghcr.io/${{ github.repository }}/julia-jeg-kernelspec:beta .
 
       - name: Push Docker Image
         run: |
