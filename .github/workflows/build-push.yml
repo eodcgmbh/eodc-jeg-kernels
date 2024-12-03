@@ -34,6 +34,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
+          ls -la ${{ matrix.image.context }}
           docker build \
             --file ${{ matrix.image.dockerfile }} \
             --tag ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ matrix.image.tag }} \
