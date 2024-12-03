@@ -21,7 +21,8 @@ jobs:
             dockerfile: "kernel-julia/container/Dockerfile"
             context: "kernel-julia/container"
             tag: "beta"
-            pre_build_command: "tar --gzip --create --dereference --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl"
+            pre_build_command: "cd kernel-julia/container/; \
+              tar --gzip --create --dereference --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl"
 
     steps:
       - name: Checkout repository
