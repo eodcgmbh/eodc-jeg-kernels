@@ -1,6 +1,6 @@
 # README
 
-[![Build and Publish](https://github.com/eodcgmbh/julia-jeg-kernel/actions/workflows/build-publish.yml/badge.svg)](https://github.com/eodcgmbh/julia-jeg-kernel/actions/workflows/build-publish.yml)
+[![Build and Publish](https://github.com/eodcgmbh/julia-jeg-kernel/actions/workflows/build-publish.yml/badge.svg?event=push)](https://github.com/eodcgmbh/julia-jeg-kernel/actions/workflows/build-publish.yml)
 
 ## Components
 
