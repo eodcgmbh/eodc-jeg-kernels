@@ -1,0 +1,37 @@
+name: Build and Publish Julia Docker Images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        image:
+          - name: "julia-jeg-kernelspec"
+            dockerfile: "kernel-julia/gateway/kernelspec-image/Dockerfile"
+            context: "kernel-julia/gateway/kernelspec-image"
+            tag: "beta"
+          - name: "julia-jeg-kernel"
+            dockerfile: "kernel-julia/container/Dockerfile"
+            context: "kernel-julia/container"
+            tag: "beta"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build \
+            --file ${{ matrix.image.dockerfile }} \
+            --tag ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ matrix.image.tag }} \
+            ${{ matrix.image.context }}
+          docker push ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ matrix.image.tag }}
