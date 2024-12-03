@@ -20,13 +20,16 @@ jobs:
             dockerfile: "kernel-julia/container/Dockerfile"
             context: "kernel-julia/container"
             tag: "beta"
+            pre_build_command: "tar --gzip --create --dereference \
+                                  --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz \
+                                  kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl"
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
 
       - name: Build and Push Docker Image
         run: |
