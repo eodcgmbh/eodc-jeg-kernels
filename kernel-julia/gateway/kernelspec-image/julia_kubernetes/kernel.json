@@ -5,7 +5,7 @@
       "process_proxy": {
         "class_name": "enterprise_gateway.services.processproxies.k8s.KubernetesProcessProxy",
         "config": {
-          "image_name": "ghcr.io/eodcgmbh/julia-jeg-kernel:beta"
+          "image_name": "ghcr.io/eodcgmbh/julia-jeg-kernel/julia-jeg-kernel:beta"
         }
       },
       "debugger": true
