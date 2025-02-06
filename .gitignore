@@ -23,3 +23,5 @@ docs/site/
 # environment.
 Manifest.toml
 scripts/push_images.sh
+
+venv-julia-jeg-kernel/
