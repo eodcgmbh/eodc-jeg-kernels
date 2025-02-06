@@ -18,7 +18,7 @@ RUN conda update --all && \
     conda clean --all
 
 USER jovyan
-ADD jupyter_enterprise_gateway_kernel_image_files*.tar.gz /usr/local/bin/
+ADD jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz /usr/local/bin/
 
 USER root
 RUN mv /usr/local/bin/init.jl \
