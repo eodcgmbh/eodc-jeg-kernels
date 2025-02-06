@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-enterprise-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enterprise-gateway
+  template:
+    metadata:
+      labels:
+        app: enterprise-gateway
+    spec:
+      containers:
+      - name: enterprise-gateway
+        image: elyra/enterprise-gateway:latest
+        ports:
+        - containerPort: 8888
+        env:
+        - name: KERNEL_PATH
+          value: /mnt/nfs/kernels
+        - name: EG_LOG_LEVEL
+          value: DEBUG
+        volumeMounts:
+        - name: kernel-specs
+          mountPath: /mnt/nfs/kernels
+      volumes:
+      - name: kernel-specs
+        persistentVolumeClaim:
+          claimName: nfs-pvc

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-enterprise-gateway
+  namespace: jeg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enterprise-gateway
+  template:
+    metadata:
+      labels:
+        app: enterprise-gateway
+    spec:
+      containers:
+      - name: enterprise-gateway
+        image: elyra/enterprise-gateway:3.2.3
+        ports:
+        - containerPort: 8888
+        env:
+        - name: EG_LISTEN_IP
+          value: "0.0.0.0"
+        - name: KERNEL_PATH
+          value: /usr/local/share/jupyter/kernels
+        - name: EG_LOG_LEVEL
+          value: DEBUG
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+        #volumeMounts:
+        #- name: kernel-spec-julia
+        #  mountPath: /usr/local/share/jupyter/kernels
+      #volumes:
+      #- name: kernel-spec-julia
+      #  configMap:
+      #    name: kernel-spec-julia

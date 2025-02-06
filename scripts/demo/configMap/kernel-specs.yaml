@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kernel-specs
+  namespace: jeg
+data:
+  kernel.json: |
+    {
+      "argv": ["python3", "-m", "ipykernel_launcher", "-f", "{connection_file}"],
+      "display_name": "Python 3",
+      "language": "python"
+    }
