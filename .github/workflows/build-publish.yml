@@ -1,0 +1,42 @@
+name: Build and Publish
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        image:
+          - name: "julia-jeg-kernelspec"
+            dockerfile: "kernel-julia/gateway/kernelspec-image/Dockerfile"
+            context: "kernel-julia/gateway/kernelspec-image"
+            tag: "beta"
+            pre_build_command: ""
+          - name: "julia-jeg-kernel"
+            dockerfile: "kernel-julia/container/Dockerfile"
+            context: "kernel-julia/container"
+            tag: "beta"
+            pre_build_command: "cd kernel-julia/container/; \
+              tar --gzip --create --dereference --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
+
+      - name: Execute Pre-Build Command
+        run: ${{ matrix.image.pre_build_command }}
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build \
+            --file ${{ matrix.image.dockerfile }} \
+            --tag ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ matrix.image.tag }} \
+            ${{ matrix.image.context }}
+          docker push ghcr.io/${{ github.repository }}/${{ matrix.image.name }}:${{ matrix.image.tag }}
