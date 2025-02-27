@@ -26,7 +26,8 @@ jobs:
             dockerfile: "kernel-python/container/Dockerfile"
             context: "kernel-python/container"
             tag: "beta"
-            pre_build_command: "tar --gzip --create --file=jupyter_enterprise_gateway_kernel_image_files_docker-python.tar.gz kernel-launchers/ bootstrap-kernel.sh"
+            pre_build_command: "cd kernel-python/container/; \
+              tar --gzip --create --file=jupyter_enterprise_gateway_kernel_image_files_docker-python.tar.gz kernel-launchers/ bootstrap-kernel.sh"
               
     steps:
       - name: Checkout repository
