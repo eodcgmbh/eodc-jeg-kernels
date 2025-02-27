@@ -11,12 +11,12 @@ jobs:
     strategy:
       matrix:
         image:
-          - name: "julia-jeg-kernelspec"
+          - name: "jeg-kernelspec"
             dockerfile: "kernel-julia/gateway/kernelspec-image/Dockerfile"
             context: "kernel-julia/gateway/kernelspec-image"
             tag: "beta"
             pre_build_command: ""
-          - name: "julia-jeg-kernel"
+          - name: "jeg-kernels"
             dockerfile: "kernel-julia/container/Dockerfile"
             context: "kernel-julia/container"
             tag: "beta"
