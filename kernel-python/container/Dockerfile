@@ -31,7 +31,6 @@ USER jovyan
 
 ENV KERNEL_LANGUAGE=python
 
-# Disble healthcheck inherited from notebook image
 HEALTHCHECK NONE
 
 CMD /usr/local/bin/bootstrap-kernel.sh
