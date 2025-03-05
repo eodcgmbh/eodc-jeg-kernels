@@ -9,6 +9,7 @@ RUN conda install --quiet --yes \
     cffi \
     future \
     pycryptodomex \
+    leafmap \
     && \
     conda clean --all && \
     fix-permissions $CONDA_DIR && \
@@ -28,12 +29,6 @@ RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 	chown --recursive jovyan:users /usr/local/bin/kernel-launchers
 
 USER jovyan
-
-RUN mamba install --yes \
-    'leafmap' && \
-    mamba clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
 
 ENV KERNEL_LANGUAGE=python
 
