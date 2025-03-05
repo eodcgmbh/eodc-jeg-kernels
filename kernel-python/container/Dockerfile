@@ -5,7 +5,7 @@ ENV PATH=$PATH:$CONDA_DIR/bin
 
 RUN pip install --upgrade ipykernel==6.29.5
 
-RUN conda install --quiet --yes \
+RUN conda install --yes --channel conda-forge \
     cffi \
     future \
     pycryptodomex \
