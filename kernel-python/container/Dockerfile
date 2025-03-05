@@ -29,12 +29,11 @@ RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 
 USER jovyan
 
-RUN conda install --quiet --yes \
-    leafmap \
-    && \
-    conda clean --all && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
+RUN mamba install --yes \
+    'leafmap' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
 ENV KERNEL_LANGUAGE=python
 
