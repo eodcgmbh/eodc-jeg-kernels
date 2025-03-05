@@ -30,7 +30,11 @@ RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 USER jovyan
 
 RUN conda install --quiet --yes \
-    leafmap
+    leafmap \
+    && \
+    conda clean --all && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
 ENV KERNEL_LANGUAGE=python
 
