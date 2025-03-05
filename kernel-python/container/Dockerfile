@@ -10,6 +10,7 @@ RUN conda install --yes --channel conda-forge \
     future \
     pycryptodomex \
     leafmap \
+    rioxarray \
     && \
     conda clean --all && \
     fix-permissions $CONDA_DIR && \
