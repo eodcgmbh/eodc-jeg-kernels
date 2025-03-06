@@ -36,6 +36,8 @@ RUN mamba install --yes \
 
 USER jovyan
 
+RUN echo "Build date: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > /tmp/build_date.txt
+
 ENV KERNEL_LANGUAGE=python
 
 HEALTHCHECK NONE
