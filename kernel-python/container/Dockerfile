@@ -9,8 +9,6 @@ RUN conda install --yes --channel conda-forge \
     cffi \
     future \
     pycryptodomex \
-    leafmap \
-    rioxarray \
     && \
     conda clean --all && \
     fix-permissions $CONDA_DIR && \
@@ -28,6 +26,13 @@ RUN apt-get update && apt-get install --assume-yes --quiet --no-install-recommen
 RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 	chmod 0755 /usr/local/bin/bootstrap-kernel.sh && \
 	chown --recursive jovyan:users /usr/local/bin/kernel-launchers
+
+USER ${NB_UID}
+RUN mamba install --yes \
+    'leafmap' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 
 USER jovyan
 
