@@ -3,14 +3,20 @@ FROM $BASE_CONTAINER
 
 ENV PATH=$PATH:$CONDA_DIR/bin
 
+COPY conda-deps-geo.yaml /tmp/conda-deps-geo.yaml
+
 RUN pip install --upgrade ipykernel==6.29.5
 
 RUN conda install --yes --channel conda-forge \
-    cffi \
-    future \
-    pycryptodomex \
-    && \
-    conda clean --all && \
+    cffi>=1.17 \
+    future>=1.0 \
+    pycryptodomex>=3.21 && \
+    conda clean --all  && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
+RUN mamba install --yes --verbose --file /tmp/conda-deps-geo.yaml && \
+    mamba clean --all && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
@@ -27,16 +33,7 @@ RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
 	chmod 0755 /usr/local/bin/bootstrap-kernel.sh && \
 	chown --recursive jovyan:users /usr/local/bin/kernel-launchers
 
-USER ${NB_UID}
-RUN mamba install --yes \
-    'leafmap' && \
-    mamba clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
-
 USER jovyan
-
-RUN echo "Build date: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > /tmp/build_date.txt
 
 ENV KERNEL_LANGUAGE=python
 
