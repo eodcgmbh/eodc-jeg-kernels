@@ -1,0 +1,30 @@
+name: Build and Publish jeg-python-kernel
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'kernel-python/container/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
+
+      - name: Execute Pre-Build Command
+        run: cd kernel-python/container/; tar --gzip --create --file=jupyter_enterprise_gateway_kernel_image_files_docker-python.tar.gz kernel-launchers/ bootstrap-kernel.sh
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build \
+            --file kernel-python/container/Dockerfile \
+            --tag ghcr.io/${{ github.repository }}/jeg-python-kernel:beta \
+            kernel-python/container
+          docker push ghcr.io/${{ github.repository }}/jeg-python-kernel:beta
