@@ -1,0 +1,30 @@
+name: Build and Publish jeg-julia-kernel
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'kernel-julia/container/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
+
+      - name: Execute Pre-Build Command
+        run: cd kernel-julia/container/; tar --gzip --create --dereference --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build \
+            --file kernel-julia/container/Dockerfile \
+            --tag ghcr.io/${{ github.repository }}/jeg-julia-kernel:beta \
+            kernel-julia/container
+          docker push ghcr.io/${{ github.repository }}/jeg-julia-kernel:beta
