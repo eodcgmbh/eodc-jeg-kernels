@@ -1,6 +1,8 @@
 # README
 
-[![Build and Publish](https://github.com/eodcgmbh/julia-jeg-kernel/actions/workflows/build-publish.yml/badge.svg?event=push)](https://github.com/eodcgmbh/julia-jeg-kernel/actions/workflows/build-publish.yml)
+[![Build and Publish jeg-kernelspecs](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_jeg-kernelspecs.yml/badge.svg)](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_jeg-kernelspecs.yml)
+[![Build and Publish jeg-python-kernel](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-python.yml/badge.svg)](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-python.yml)
+[![Build and Publish jeg-julia-kernel](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-julia.yml/badge.svg)](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-julia.yml)
 
 ## Components
 
