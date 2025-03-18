@@ -24,7 +24,7 @@ dependencies:
   - earthkit-data
   - rioxarray
   - ipywidgets
-  - ipyleaflet>=0.19
+  - ipyleaflet=0.19.2
   - pip:
       - pystac_client
       - rich

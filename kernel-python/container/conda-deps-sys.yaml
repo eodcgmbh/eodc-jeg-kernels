@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+dependencies:
+  - cffi>=1.17
+  - future>=1.0
+  - pycryptodomex>=3.21
