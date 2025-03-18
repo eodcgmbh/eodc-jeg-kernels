@@ -1,0 +1,27 @@
+name: Build and Publish jeg-kernelspecs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'kernel-julia/gateway/kernelspec-image/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build \
+            --file kernel-julia/gateway/kernelspec-image/Dockerfile \
+            --tag ghcr.io/${{ github.repository }}/jeg-kernelspecs:beta \
+            kernel-julia/gateway/kernelspec-image
+          docker push ghcr.io/${{ github.repository }}/jeg-kernelspecs:beta
