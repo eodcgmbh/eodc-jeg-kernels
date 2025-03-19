@@ -26,7 +26,7 @@ RUN mv /usr/local/bin/eventloop.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
 
 
-RUN julia /tmp/julia-packages.jl
+#RUN julia /tmp/julia-packages.jl
 
 
 RUN apt-get update && \
