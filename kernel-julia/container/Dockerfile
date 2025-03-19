@@ -4,6 +4,7 @@ FROM ${BASE_CONTAINER}
 ENV PATH=${PATH}:${CONDA_DIR}/bin
 
 COPY conda-deps-sys.yaml /tmp/conda-deps-sys.yaml
+COPY julia-packages.jl /tmp/julia-packages.jl
 
 RUN pip install --upgrade ipykernel==6.29.5
 
@@ -23,6 +24,10 @@ RUN mv /usr/local/bin/init.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
 RUN mv /usr/local/bin/eventloop.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
+
+
+RUN julia /tmp/julia-packages.jl
+
 
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends libkrb5-dev && \
