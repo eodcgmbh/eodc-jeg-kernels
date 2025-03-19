@@ -1,4 +1,4 @@
-ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2025-03-17
+ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2024-05-27
 FROM ${BASE_CONTAINER}
 
 ENV PATH=${PATH}:${CONDA_DIR}/bin
