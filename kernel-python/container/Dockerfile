@@ -1,7 +1,7 @@
-ARG BASE_CONTAINER=quay.io/jupyter/scipy-notebook:2025-02-24
-FROM $BASE_CONTAINER
+ARG BASE_CONTAINER=quay.io/jupyter/scipy-notebook:2025-03-17
+FROM ${BASE_CONTAINER}
 
-ENV PATH=$PATH:$CONDA_DIR/bin
+ENV PATH=${PATH}:${CONDA_DIR}/bin
 
 COPY conda-deps-geo.yaml /tmp/conda-deps-geo.yaml
 COPY conda-deps-sys.yaml /tmp/conda-deps-sys.yaml
