@@ -18,6 +18,8 @@ RUN mamba install --yes --verbose --file /tmp/conda-deps-sys.yaml && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+RUN julia /tmp/julia-packages.jl
+
 ADD jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz /usr/local/bin/
 
 USER root
