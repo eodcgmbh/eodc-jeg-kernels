@@ -1,4 +1,4 @@
-ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2024-08-30
+ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2024-05-27
 FROM ${BASE_CONTAINER}
 
 ENV PATH=${PATH}:${CONDA_DIR}/bin
@@ -7,6 +7,8 @@ COPY conda-deps-sys.yaml /tmp/conda-deps-sys.yaml
 COPY julia-packages.jl /tmp/julia-packages.jl
 
 RUN pip install --upgrade ipykernel==6.29.5
+
+RUN conda install --name base --channel conda-forge "mamba>=2.0.8"
 
 USER ${NB_UID}
 
@@ -24,9 +26,6 @@ RUN mv /usr/local/bin/init.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
 RUN mv /usr/local/bin/eventloop.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
-
-
-#RUN julia /tmp/julia-packages.jl
 
 
 RUN apt-get update && \
