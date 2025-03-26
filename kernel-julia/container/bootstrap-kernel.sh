@@ -47,8 +47,7 @@ launch_julia_kernel() {
 	set -x
     export JULIA_NUM_THREADS=$(( ($(nproc) - 2) > 0 ? $(nproc) - 2 : 1 )) # Use all but 2 cores for Julia
 
-	julia --debug-info=1 --optimize=1 \
-        ${KERNEL_LAUNCHERS_DIR}/julia/scripts/launch_ijuliakernel.jl \
+	julia ${KERNEL_LAUNCHERS_DIR}/julia/scripts/launch_ijuliakernel.jl \
         --kernel-id ${KERNEL_ID} --port-range ${PORT_RANGE} \
         --response-address ${RESPONSE_ADDRESS} --public-key ${PUBLIC_KEY}
 
