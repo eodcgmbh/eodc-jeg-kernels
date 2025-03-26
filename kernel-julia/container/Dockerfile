@@ -1,9 +1,6 @@
 ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2025-03-25
 FROM ${BASE_CONTAINER}
 
-
-RUN julia --eval "import Pkg; Pkg.update(); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
-
 ENV PATH=${PATH}:${CONDA_DIR}/bin
 
 COPY conda-deps-sys.yaml /tmp/conda-deps-sys.yaml
@@ -37,7 +34,7 @@ RUN apt-get update && \
     apt-get autoclean --yes && \
     rm --force --recursive /var/lib/apt/lists/*
 
-
+RUN julia --eval "import Pkg; Pkg.update(); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
 
 #RUN julia --eval 'using Pkg; using IJulia; ENV["IJULIA_DEBUG"]=true; Pkg.build("IJulia")'
 
