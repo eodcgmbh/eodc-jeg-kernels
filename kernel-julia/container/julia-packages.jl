@@ -9,7 +9,7 @@ packages = [
     ("GeoJSON",         "0.8.2"),
     ("Leaflet",         "0.1.1"),
         ("Blink",       "0.12.9"), # requires webio-jupyter-extension
-        ("GADM",        "1.12.0"),
+        ("GADM",        "1.2.0"),
     ("TileProviders",   "0.1.4"),
     ("ZarrDatasets",    "0.1.3")
 ]
