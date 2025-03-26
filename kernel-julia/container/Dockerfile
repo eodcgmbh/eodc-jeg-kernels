@@ -34,7 +34,7 @@ RUN apt-get update && \
     apt-get autoclean --yes && \
     rm --force --recursive /var/lib/apt/lists/*
 
-RUN julia --eval "import Pkg; Pkg.update(); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
+RUN julia --eval "import Pkg; using IJulia; Pkg.update(); ENV[\"IJULIA_DEBUG\"]=true; Pkg.build(\"IJulia\"); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
 
 #RUN julia --eval 'using Pkg; using IJulia; ENV["IJULIA_DEBUG"]=true; Pkg.build("IJulia")'
 
