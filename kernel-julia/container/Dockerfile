@@ -24,17 +24,20 @@ ADD jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz /usr/local
 
 USER root
 
-RUN mv /usr/local/bin/init.jl \
-    $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
-RUN mv /usr/local/bin/eventloop.jl \
-    $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
-
-
 RUN apt-get update && \
     apt-get install --assume-yes --quiet --no-install-recommends libkrb5-dev && \
     apt-get autoremove --yes && \
     apt-get autoclean --yes && \
     rm --force --recursive /var/lib/apt/lists/*
+
+
+RUN mv /usr/local/bin/init.jl \
+    $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
+RUN mv /usr/local/bin/eventloop.jl \
+    $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
+
+RUN julia --eval 'using Pkg; using IJulia; ENV["IJULIA_DEBUG"]=true; Pkg.build("IJulia")'
+
 
 RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
     chmod 0755 /usr/local/bin/bootstrap-kernel.sh && \
