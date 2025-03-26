@@ -30,15 +30,14 @@ RUN apt-get update && \
     apt-get autoclean --yes && \
     rm --force --recursive /var/lib/apt/lists/*
 
+RUN julia --eval 'using Pkg; using IJulia; ENV["IJULIA_DEBUG"]=true; Pkg.build("IJulia")'
 
 RUN mv /usr/local/bin/init.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
 RUN mv /usr/local/bin/eventloop.jl \
     $(julia --eval "using IJulia; println(pathof(IJulia))" | rev | cut --delimiter='/' --fields=2- | rev)
 
-RUN julia --eval 'using Pkg; using IJulia; ENV["IJULIA_DEBUG"]=true; Pkg.build("IJulia")'
-
-
+    
 RUN chown jovyan:users /usr/local/bin/bootstrap-kernel.sh && \
     chmod 0755 /usr/local/bin/bootstrap-kernel.sh && \
     chown --recursive jovyan:users /usr/local/bin/kernel-launchers

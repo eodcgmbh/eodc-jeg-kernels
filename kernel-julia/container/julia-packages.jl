@@ -23,4 +23,5 @@ for (name, version) in packages
     Pkg.add(Pkg.PackageSpec(name=name, version=version))
 end
 
+Pkg.instantiate()
 Pkg.precompile()
