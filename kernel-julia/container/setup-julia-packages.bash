@@ -27,21 +27,10 @@ elif [ "$(uname -m)" == "aarch64" ]; then
     export JULIA_CPU_TARGET="generic;cortex-a57;thunderx2t99;carmel,clone_all;apple-m1,base(3);neoverse-512tvb,base(3)"
 fi
 
-# Install base Julia packages
-julia -e '
-import Pkg;
-Pkg.update();
-Pkg.add([
-    "HDF5",
-    "IJulia",
-    "Pluto",
-    "Plots",
-    "Geodesy",
-    "PyCall",
-    "CSV"
-]);
-Pkg.precompile();
-'
+
+# Install Julia packages from julia-packages.jl
+julia /tmp/julia-packages.jl
+
 
 # Move the kernelspec out of ${HOME} to the system share location.
 # Avoids problems with runtime UID change not taking effect properly

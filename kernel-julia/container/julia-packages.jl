@@ -1,7 +1,15 @@
-using Pkg
+import Pkg;
 
+
+Pkg.update();
 
 packages = [
+    # <sys packages>
+    ("HDF5",      "0.17.2"),
+    ("IJulia",      "1.26.0"),
+    ("Pluto",      "0.20.5"),
+    # </sys packages>
+    # <geo packages>
     ("NCDatasets",      "0.14.6"),
     ("Geodesy",         "1.1.0"),
     ("GDAL",            "1.10.0"),
@@ -17,11 +25,11 @@ packages = [
     ("Plots",           "1.40.11"),
     ("PyCall",          "1.96.4"),
     #(<package name>, <version>)
+    # </geo packages>
 ]
 
 for (name, version) in packages
     Pkg.add(Pkg.PackageSpec(name=name, version=version))
 end
 
-Pkg.instantiate()
 Pkg.precompile()
