@@ -26,6 +26,7 @@ RUN mamba install --yes --verbose --file /tmp/conda-deps-sys.yaml && \
 
 ADD jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz /usr/local/bin/
 RUN julia --eval "import Pkg; using IJulia; Pkg.update(); ENV[\"IJULIA_DEBUG\"]=true; Pkg.build(\"IJulia\"); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
+RUN fix-permissions "${JULIA_PKGDIR}" "${CONDA_DIR}/share/jupyter"
 
 USER root
 
