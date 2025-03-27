@@ -35,7 +35,6 @@ Pkg.add([
     "HDF5",
     "IJulia",
     "Pluto",
-    "IJuliaExt",
     "Plots",
     "Geodesy"
 ]);
