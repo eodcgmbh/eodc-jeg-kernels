@@ -20,7 +20,8 @@ USER root
 # Julia dependencies
 # install Julia packages in /opt/julia instead of ${HOME}
 ENV JULIA_DEPOT_PATH=/opt/julia \
-    JULIA_PKGDIR=/opt/julia
+    JULIA_PKGDIR=/opt/julia \
+    IJULIA_DEBUG=true
 
 # Setup Julia
 RUN /opt/setup-scripts/setup_julia.py
