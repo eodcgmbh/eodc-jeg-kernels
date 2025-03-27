@@ -36,7 +36,9 @@ Pkg.add([
     "IJulia",
     "Pluto",
     "Plots",
-    "Geodesy"
+    "Geodesy",
+    "PyCall",
+    "CSV"
 ]);
 Pkg.precompile();
 '
