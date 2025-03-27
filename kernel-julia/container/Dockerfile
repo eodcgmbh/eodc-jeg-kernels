@@ -1,5 +1,35 @@
-ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2025-03-25
-FROM ${BASE_CONTAINER}
+#ARG BASE_CONTAINER=quay.io/jupyter/julia-notebook:2025-03-25
+#FROM ${BASE_CONTAINER}
+
+# Copyright (c) Jupyter Development Team.
+# Distributed under the terms of the Modified BSD License.
+ARG REGISTRY=quay.io
+ARG OWNER=jupyter
+ARG BASE_IMAGE=$REGISTRY/$OWNER/minimal-notebook
+FROM $BASE_IMAGE
+
+LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
+
+# Fix: https://github.com/hadolint/hadolint/wiki/DL4006
+# Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+USER root
+
+# Julia dependencies
+# install Julia packages in /opt/julia instead of ${HOME}
+ENV JULIA_DEPOT_PATH=/opt/julia \
+    JULIA_PKGDIR=/opt/julia
+
+# Setup Julia
+RUN /opt/setup-scripts/setup_julia.py
+
+USER ${NB_UID}
+
+COPY setup-julia-packages.bash /tmp/setup-julia-packages.bash
+
+# Setup IJulia kernel & other packages
+RUN /opt/setup-scripts/setup-julia-packages.bash
 
 ENV PATH=${PATH}:${CONDA_DIR}/bin
 

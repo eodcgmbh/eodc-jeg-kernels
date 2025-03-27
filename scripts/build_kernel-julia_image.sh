@@ -11,7 +11,7 @@ tar --gzip --create --dereference \
     kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl
 
 # Build the Docker image
-docker build --tag "ghcr.io/eodcgmbh/julia-jeg-kernel:beta" .
+docker build --progress=plain --tag "ghcr.io/eodcgmbh/julia-jeg-kernel:beta" .
 
 # Cleanup
 rm jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz
