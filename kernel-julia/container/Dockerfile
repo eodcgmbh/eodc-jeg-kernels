@@ -26,7 +26,7 @@ RUN /opt/setup-scripts/setup_julia.py
 
 USER ${NB_UID}
 
-COPY setup-julia-packages.bash /tmp/setup-julia-packages.bash
+COPY setup-julia-packages.bash /opt/setup-scripts/setup-julia-packages.bash
 
 # Setup IJulia kernel & other packages
 RUN /opt/setup-scripts/setup-julia-packages.bash
