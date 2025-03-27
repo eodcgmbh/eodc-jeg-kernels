@@ -25,6 +25,7 @@ RUN mamba install --yes --verbose --file /tmp/conda-deps-sys.yaml && \
 #RUN julia /tmp/julia-packages.jl
 
 ADD jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz /usr/local/bin/
+RUN julia --eval "import Pkg; using IJulia; Pkg.update(); ENV[\"IJULIA_DEBUG\"]=true; Pkg.build(\"IJulia\"); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
 
 USER root
 
@@ -34,7 +35,6 @@ RUN apt-get update && \
     apt-get autoclean --yes && \
     rm --force --recursive /var/lib/apt/lists/*
 
-RUN julia --eval "import Pkg; using IJulia; Pkg.update(); ENV[\"IJULIA_DEBUG\"]=true; Pkg.build(\"IJulia\"); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
 
 #RUN julia --eval 'using Pkg; using IJulia; ENV["IJULIA_DEBUG"]=true; Pkg.build("IJulia")'
 
