@@ -5,7 +5,7 @@
 # Distributed under the terms of the Modified BSD License.
 ARG REGISTRY=quay.io
 ARG OWNER=jupyter
-ARG BASE_IMAGE=$REGISTRY/$OWNER/minimal-notebook
+ARG BASE_IMAGE=$REGISTRY/$OWNER/minimal-notebook:2025-03-27
 FROM $BASE_IMAGE
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
@@ -31,6 +31,10 @@ COPY setup-julia-packages.bash /tmp/setup-julia-packages.bash
 # Setup IJulia kernel & other packages
 RUN /opt/setup-scripts/setup-julia-packages.bash
 
+
+#######################################
+
+
 ENV PATH=${PATH}:${CONDA_DIR}/bin
 
 COPY conda-deps-sys.yaml /tmp/conda-deps-sys.yaml
@@ -55,8 +59,8 @@ RUN mamba install --yes --verbose --file /tmp/conda-deps-sys.yaml && \
 #RUN julia /tmp/julia-packages.jl
 
 ADD jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz /usr/local/bin/
-RUN julia --eval "import Pkg; using IJulia; Pkg.update(); ENV[\"IJULIA_DEBUG\"]=true; Pkg.build(\"IJulia\"); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
-RUN fix-permissions "${JULIA_PKGDIR}" "${CONDA_DIR}/share/jupyter"
+#RUN julia --eval "import Pkg; using IJulia; Pkg.update(); ENV[\"IJULIA_DEBUG\"]=true; Pkg.build(\"IJulia\"); Pkg.add([\"DataStructures\"]); Pkg.precompile()"
+#RUN fix-permissions "${JULIA_PKGDIR}" "${CONDA_DIR}/share/jupyter"
 
 USER root
 
