@@ -3,7 +3,7 @@
 
 set -x
 
-cd ../kernel-julia/container/
+cd ../../../kernel-julia/container/
 
 # Create the tarball of the kernel files
 tar --gzip --create --dereference \

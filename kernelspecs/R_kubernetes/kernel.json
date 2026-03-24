@@ -1,19 +1,18 @@
 {
-  "language": "julia",
-  "display_name": "Julia on Kubernetes",
+  "language": "R",
+  "display_name": "R on Kubernetes",
   "metadata": {
     "process_proxy": {
       "class_name": "enterprise_gateway.services.processproxies.k8s.KubernetesProcessProxy",
       "config": {
-        "image_name": "ghcr.io/eodcgmbh/eodc-jeg-kernels/jeg-julia-kernel:beta"
+        "image_name": "elyra/kernel-r:VERSION"
       }
-    },
-    "debugger": true
+    }
   },
   "env": {},
   "argv": [
     "python",
-    "/usr/local/share/jupyter/kernels/julia_kubernetes/scripts/launch_kubernetes.py",
+    "/usr/local/share/jupyter/kernels/R_kubernetes/scripts/launch_kubernetes.py",
     "--RemoteProcessProxy.kernel-id",
     "{kernel_id}",
     "--RemoteProcessProxy.port-range",

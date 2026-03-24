@@ -4,6 +4,24 @@
 [![Build and Publish jeg-python-kernel](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-python.yml/badge.svg)](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-python.yml)
 [![Build and Publish jeg-julia-kernel](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-julia.yml/badge.svg)](https://github.com/eodcgmbh/eodc-jeg-kernels/actions/workflows/build-publish_kernel-julia.yml)
 
+
+## Use Case: KernelSpecs PV/C
+
+* `.github/workflows`
+  * `.github/workflows/build-publish_kernel-julia.yml`: Workflow that builds and publishes the Julia kernel image
+
+* `kernel-julia/`
+  * `container/`: Files for the image that runs in the kernel pod
+  * `gateway/`
+    * Not used
+
+* `scripts/`
+  * `build_kernel-julia_image.sh`: Locally builds the Julia kernel image for testing
+
+
+## Use Case: KernelSpecs PV/C
+
+
 ## Components
 
 ### container/

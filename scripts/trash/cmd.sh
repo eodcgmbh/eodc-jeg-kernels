@@ -12,7 +12,29 @@ pid_build=$!
 minikube start minikube start --cpus=4 --memory=4g --embed-certs=true --driver=docker &
 pid_mkb=$!
 
-wait $pid_build $pid_mkb
+# @minikube
+sudo mkdir --parents /mnt/jeg/kernelspecs
+sudo tar --extract --file=kernelspecs.tar
+sudo chmod --recursive 755 /mnt/jeg/kernelspecs/
+
+# @local
+tar --create --gzip --directory=kernelspecs --file=kernelspecs.tar .
+minikube cp ./kernelspecs.tar /mnt/jeg/kernelspecs/
+
+kubectl create namespace jeg
+
+kubectl create secret docker-registry ghcr-secret \
+    --docker-server=ghcr.io \
+    --docker-username="" \
+    --docker-password="" \
+    --docker-email="" \
+    --namespace=jeg
+
+kubectl patch serviceaccount default \
+    --patch='{"imagePullSecrets": [{"name": "ghcr-secret"}]}' \
+    --namespace=jeg
+
+
 helm upgrade --install enterprise-gateway ./etc/kubernetes/helm/enterprise-gateway/ \
     --kube-context minikube \
     --create-namespace --namespace jeg \
@@ -23,6 +45,7 @@ helm upgrade --install enterprise-gateway ./etc/kubernetes/helm/enterprise-gatew
     --set kernelspecsPvc.enabled=true \
     --set kernelspecsPvc.name=jeg-kernelspec-pvc \
     --set kernel.allowedKernels="{R_kubernetes,python_kubernetes,julia_kubernetes}"
+    --set global.imagePullSecrets[0].name=ghcr-secret
     #--set kernelspecs.image=ghcr.io/eodcgmbh/julia-jeg-kernelspec:beta \
 
 # New shell
@@ -32,12 +55,3 @@ kubectl port-forward --namespace jeg svc/enterprise-gateway 8888:8888 &
 jupyter lab --gateway-url=http://localhost:8888 --no-browser --GatewayClient.request_timeout=600.0
 
 
-
-# @minikube
-sudo mkdir --parents /mnt/jeg/kernelspecs
-sudo tar --extract --file=kernelspecs.tar
-sudo chmod --recursive 755 /mnt/jeg/kernelspecs/
-
-# @local
-tar --create --gzip --directory=kernelspecs --file=kernelspecs.tar .
-minikube cp ./kernelspecs.tar /mnt/jeg/kernelspecs/

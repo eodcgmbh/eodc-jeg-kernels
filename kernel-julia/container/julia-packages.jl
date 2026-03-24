@@ -7,7 +7,7 @@ packages = [
     # <sys packages>
     ("HDF5",      "0.17.2"),
     ("IJulia",      "1.26.0"),
-    ("Pluto",      "0.20.5"),
+    ("Pluto",      "0.20.21"),
     # </sys packages>
     # <geo packages>
     ("NCDatasets",      "0.14.6"),
@@ -22,7 +22,7 @@ packages = [
     ("ZarrDatasets",    "0.1.3"),
     ("CSV",             "0.10.15"),
     ("DataFrames",      "1.7.0"),
-    ("Plots",           "1.40.11"),
+    ("Plots",           "1.41.3"),
     ("PyCall",          "1.96.4"),
     #(<package name>, <version>)
     # </geo packages>
