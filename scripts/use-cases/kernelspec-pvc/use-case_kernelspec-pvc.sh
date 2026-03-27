@@ -59,9 +59,11 @@ helm upgrade --install enterprise-gateway ./etc/kubernetes/helm/enterprise-gatew
     --set nfs.enabled=false \
     --set kernelspecsPvc.enabled=true \
     --set kernelspecsPvc.name=jeg-kernelspec-pvc \
-    --set kernel.allowedKernels="{R_kubernetes,python_kubernetes,julia_kubernetes}" \
-    --set global.imagePullSecrets[0].name=ghcr-secret
+    --set global.imagePullSecrets[0].name=ghcr-secret \
+    --set kernel.allowedKernels="{r_kubernetes,python_kubernetes,julia_kubernetes}"
 
+#     --set kernel.allowedKernels="{r_kubernetes,python_kubernetes,julia_kubernetes}" \ 
+# * as wildcard?
 # New shell
 kubectl port-forward --namespace jeg svc/enterprise-gateway 8888:8888 &
 

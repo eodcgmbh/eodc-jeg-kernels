@@ -1,99 +1,99 @@
-using IJulia
-
-
-# Set up the kernel path
-path = pathof(IJulia)
-kernel_path = join(vcat(split(path, '/')[1:end-1], "kernel.jl"), '/')
-@assert isfile(kernel_path)
-pid = getpid()
-
-
-# Determine the directory this script resides in
-script_path = abspath(PROGRAM_FILE)
-listener_file = joinpath(dirname(script_path), "server_listener.py")
-
-
-# Set startup arguments
-lower_port = 49152
-upper_port = 65535
-kernel_id = ARGS[2]
-response_address = ARGS[6]
-public_key = ARGS[8]
-
-
-# Launch the server listener
-svr_listener_cmd = `python3 -v -c
-"import os, sys, importlib.util;
-spec = importlib.util.spec_from_file_location('setup_server_listener', '$listener_file');
-gl = importlib.util.module_from_spec(spec);
-spec.loader.exec_module(gl);
-gl.setup_server_listener(conn_filename='/tmp/confile.json', parent_pid=$pid,
-                            lower_port=$lower_port, upper_port=$upper_port,
-                            response_addr='$response_address', kernel_id='$kernel_id',
-                            public_key='$public_key')"`
-
-println("Starting server_listener.py")
-@async Base.run(pipeline(svr_listener_cmd))
-
-
-# Wait for the connection file to be created
-while !isfile("/tmp/confile.json")
-    sleep(0.2)
-end
-@assert isfile("/tmp/confile.json")
-
-
-# Set ARGS for kernel.jl
-empty!(ARGS)
-push!(ARGS, "/tmp/confile.json")
-
-println("Starting kernel.jl")
-include(kernel_path)
-
-
 # using IJulia
 
-# # 1. Locate the core kernel script
+
+# # Set up the kernel path
 # path = pathof(IJulia)
 # kernel_path = join(vcat(split(path, '/')[1:end-1], "kernel.jl"), '/')
 # @assert isfile(kernel_path)
 # pid = getpid()
 
-# # 2. Determine the directory of the listener script
-# script_path = abspath(PROGRAM_FILE)
-# listener_file = joinpath(dirname(script_path), "server_listener.jl")
-# @assert isfile(listener_file)
 
-# # 3. Extract startup arguments provided by Enterprise Gateway
+# # Determine the directory this script resides in
+# script_path = abspath(PROGRAM_FILE)
+# listener_file = joinpath(dirname(script_path), "server_listener.py")
+
+
+# # Set startup arguments
 # lower_port = 49152
 # upper_port = 65535
 # kernel_id = ARGS[2]
 # response_address = ARGS[6]
 # public_key = ARGS[8]
 
-# # 4. Load the native Julia listener module
-# println("Loading native server_listener.jl")
-# include(listener_file)
 
-# # 5. Execute the listener setup
-# conn_file = "/tmp/confile.json"
-# println("Starting ServerListener setup")
+# # Launch the server listener
+# svr_listener_cmd = `python3 -v -c
+# "import os, sys, importlib.util;
+# spec = importlib.util.spec_from_file_location('setup_server_listener', '$listener_file');
+# gl = importlib.util.module_from_spec(spec);
+# spec.loader.exec_module(gl);
+# gl.setup_server_listener(conn_filename='/tmp/confile.json', parent_pid=$pid,
+#                             lower_port=$lower_port, upper_port=$upper_port,
+#                             response_addr='$response_address', kernel_id='$kernel_id',
+#                             public_key='$public_key')"`
 
-# ServerListener.setup_server_listener(
-#     conn_filename = conn_file,
-#     parent_pid = pid,
-#     lower_port = lower_port,
-#     upper_port = upper_port,
-#     response_addr = response_address,
-#     kernel_id = kernel_id,
-#     public_key = public_key
-# )
+# println("Starting server_listener.py")
+# @async Base.run(pipeline(svr_listener_cmd))
 
-# @assert isfile(conn_file)
 
-# # 6. Set ARGS for kernel.jl and launch the IJulia kernel
+# # Wait for the connection file to be created
+# while !isfile("/tmp/confile.json")
+#     sleep(0.2)
+# end
+# @assert isfile("/tmp/confile.json")
+
+
+# # Set ARGS for kernel.jl
 # empty!(ARGS)
-# push!(ARGS, conn_file)
+# push!(ARGS, "/tmp/confile.json")
 
 # println("Starting kernel.jl")
 # include(kernel_path)
+
+
+using IJulia
+
+# 1. Locate the core kernel script
+path = pathof(IJulia)
+kernel_path = join(vcat(split(path, '/')[1:end-1], "kernel.jl"), '/')
+@assert isfile(kernel_path)
+pid = getpid()
+
+# 2. Determine the directory of the listener script
+script_path = abspath(PROGRAM_FILE)
+listener_file = joinpath(dirname(script_path), "server_listener.jl")
+@assert isfile(listener_file)
+
+# 3. Extract startup arguments provided by Enterprise Gateway
+lower_port = 49152
+upper_port = 65535
+kernel_id = ARGS[2]
+response_address = ARGS[6]
+public_key = ARGS[8]
+
+# 4. Load the native Julia listener module
+println("Loading native server_listener.jl")
+include(listener_file)
+
+# 5. Execute the listener setup
+conn_file = "/tmp/confile.json"
+println("Starting ServerListener setup")
+
+ServerListener.setup_server_listener(
+    conn_filename = conn_file,
+    parent_pid = pid,
+    lower_port = lower_port,
+    upper_port = upper_port,
+    response_addr = response_address,
+    kernel_id = kernel_id,
+    public_key = public_key
+)
+
+@assert isfile(conn_file)
+
+# 6. Set ARGS for kernel.jl and launch the IJulia kernel
+empty!(ARGS)
+push!(ARGS, conn_file)
+
+println("Starting kernel.jl")
+include(kernel_path)
