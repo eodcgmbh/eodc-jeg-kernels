@@ -19,12 +19,12 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
 
       - name: Execute Pre-Build Command
-        run: cd kernel-julia/container/; tar --gzip --create --dereference --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl
+        run: cd kernel-julia/; tar --gzip --create --dereference --file=jupyter_enterprise_gateway_kernel_image_files_docker-julia.tar.gz kernel-launchers/ bootstrap-kernel.sh eventloop.jl init.jl
 
       - name: Build and Push Docker Image
         run: |
           docker build \
-            --file kernel-julia/container/Dockerfile \
+            --file kernel-julia/Dockerfile \
             --tag ghcr.io/${{ github.repository }}/jeg-julia-kernel:beta \
-            kernel-julia/container
+            kernel-julia
           docker push ghcr.io/${{ github.repository }}/jeg-julia-kernel:beta
