@@ -1,13 +1,15 @@
 import Pkg;
 
-
 Pkg.update();
 
 packages = [
     # <sys packages>
-    ("HDF5",      "0.17.2"),
+    ("HDF5",        "0.17.2"),
     ("IJulia",      "1.26.0"),
-    ("Pluto",      "0.20.21"),
+    ("Pluto",       "0.20.21"),
+    ("JSON",        "0.21.4"),
+    ("Nettle",      "0.5.1"),
+    ("MbedTLS",     "1.1.9"),
     # </sys packages>
     # <geo packages>
     ("NCDatasets",      "0.14.6"),
@@ -16,8 +18,8 @@ packages = [
     ("LibGEOS",         "0.9.4"),
     ("GeoJSON",         "0.8.2"),
     ("Leaflet",         "0.1.1"),
-        ("Blink",       "0.12.9"), # requires webio-jupyter-extension
-        ("GADM",        "1.2.0"),
+    ("Blink",           "0.12.9"), # requires webio-jupyter-extension
+    ("GADM",            "1.2.0"),
     ("TileProviders",   "0.1.4"),
     ("ZarrDatasets",    "0.1.3"),
     ("CSV",             "0.10.15"),
