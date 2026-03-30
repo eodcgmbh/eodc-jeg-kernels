@@ -1,6 +1,7 @@
 on:
-  workflow_dispatch:
   push:
+    branches:
+      - kernelspec-image
     paths:
       - 'kernelspecs/**'
   pull_request:
