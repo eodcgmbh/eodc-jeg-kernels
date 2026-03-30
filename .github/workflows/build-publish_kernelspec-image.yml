@@ -1,3 +1,4 @@
+name: Build and Publish image holding required kernelspecs
 on:
   push:
     paths:
@@ -28,4 +29,4 @@ jobs:
           context: .
           file: kernelspecs/kernelspec.dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/kernelspecs-image:latest
+          tags: ghcr.io/eodcgmbh/${{ github.repository }}/kernelspecs-image:latest
