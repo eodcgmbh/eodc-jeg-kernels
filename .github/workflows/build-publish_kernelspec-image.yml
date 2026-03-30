@@ -1,7 +1,5 @@
 on:
   push:
-    branches:
-      - kernelspec-image
     paths:
       - 'kernelspecs/**'
   pull_request:
