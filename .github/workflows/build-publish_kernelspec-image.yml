@@ -21,4 +21,4 @@ jobs:
           context: .
           file: kernelspecs/kernelspec.dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/kernelspecs-image:latest
+          tags: kernelspecs-image:latest
